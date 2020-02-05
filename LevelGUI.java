@@ -56,6 +56,32 @@ public class LevelGUI implements Observer {
 		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
+			for(int i = 0; i < lv.rooms.size(); i++) {
+				Room r = lv.rooms.get(i);
+				paintRooms(g, r);
+				System.out.println(r.floorColor + " " + i);
+				paintConnections(g,r);
+			}	
+			
+		}
+		
+		public void paintRooms(Graphics g, Room r) {
+			
+			if(lv.getFirstLocation() == r) {
+				g.setColor(r.floorColor);
+			}else {
+				int red = r.floorColor.getRed();
+				int green = r.floorColor.getGreen();
+				int blue = r.floorColor.getBlue();
+				Color nyNyans = new Color(red,green,blue,127);
+				g.setColor(nyNyans);
+			}
+			g.fillRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
+			g.drawRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
+		}
+		
+		public void paintConnections(Graphics g, Room r) {
+			
 			
 		}
 		
