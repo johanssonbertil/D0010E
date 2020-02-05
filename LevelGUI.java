@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 public class LevelGUI implements Observer {
 
-	
 	private Level lv;
 	private Display d;
 	private int standardTransparency = 30; 
@@ -25,25 +24,19 @@ public class LevelGUI implements Observer {
 		
 		JFrame frame = new JFrame(name);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		// TODO: You should change 200 to a value 
-		// depending on the size of the level
 		d = new Display(lv,1000,800);
 		frame.getContentPane().add(d);
 		frame.pack();
 		frame.setLocation(0,0);
 		frame.setVisible(true);
-		//lv.addObserver(this);
+		lv.addObserver(this);
 	}
 	
-	
 	public void update(Observable arg0, Object arg1) {
-		//d.repaint();
-		
+		d.repaint();	
 	}
 	
 	private class Display extends JPanel {
-		
 		
 		public Display(Level fp, int x, int y) {
 			addKeyListener(new Listener());	
@@ -52,8 +45,6 @@ public class LevelGUI implements Observer {
 			setFocusable(true);
 		}
 	
-		
-		
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			for(int i = 0; i < lv.rooms.size(); i++) {
@@ -80,40 +71,44 @@ public class LevelGUI implements Observer {
 			int rX = (int) Math.round(0.1 * r.xSize);   
 			int roomSizeHalfX = r.xCoor+r.xSize/2;
 			int roomSizeHalfY = r.yCoor+r.ySize/2;
-			if(r.northRoom != null) {
-				if(lv.getFirstLocation() == r) {
+			
+			if(lv.getFirstLocation() == r) {
+				if(r.northRoom != null) {
 					g.setColor(r.northRoom.floorColor);
-				}else {
-					g.setColor(setTransparancy(r.northRoom, standardTransparency));
+					g.fillOval(roomSizeHalfX-rX, r.yCoor-rX , 2*rX, 2*rY);
 				}
-				g.fillOval(roomSizeHalfX-rX, r.yCoor-rX , 2*rX, 2*rY);
-		    	}
-			if(r.southRoom != null) {
-				if(lv.getFirstLocation() == r) {
+				if(r.southRoom != null) {
 					g.setColor(r.southRoom.floorColor);
-				}else {
-					g.setColor(setTransparancy(r.southRoom, standardTransparency));
+					g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-rX , 2*rX, 2*rY);
 				}
-				g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-rX , 2*rX, 2*rY);
-			}
-			if(r.westRoom != null) {
-				if(lv.getFirstLocation() == r) {
+				if(r.westRoom != null) {
 					g.setColor(r.westRoom.floorColor);
-				}else {
-					g.setColor(setTransparancy(r.westRoom, standardTransparency));
+					g.fillOval(r.xCoor-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
-				g.fillOval(r.xCoor-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
-			}
-			if(r.eastRoom != null) {
-				if(lv.getFirstLocation() == r) {
+				if(r.eastRoom != null){
 					g.setColor(r.eastRoom.floorColor);
-				}else {
-					g.setColor(setTransparancy(r.eastRoom, standardTransparency));
+					g.fillOval(r.xCoor+r.xSize-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
-				g.fillOval(r.xCoor+r.xSize-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
+			}else {
+				if(r.northRoom != null) {
+					g.setColor(setTransparancy(r.northRoom, standardTransparency));
+					g.fillOval(roomSizeHalfX-rX, r.yCoor-rX , 2*rX, 2*rY);
+				}
+				if(r.southRoom != null) {
+					g.setColor(setTransparancy(r.southRoom, standardTransparency));
+					g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-rX , 2*rX, 2*rY);
+				}
+				if(r.westRoom != null) {
+					g.setColor(setTransparancy(r.westRoom, standardTransparency));
+					g.fillOval(r.xCoor-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
+				}
+				if(r.eastRoom != null){
+					g.setColor(setTransparancy(r.eastRoom, standardTransparency));
+					g.fillOval(r.xCoor+r.xSize-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
+				}
 			}
 		}
-		
+			
 		public Color setTransparancy(Room r, int trans) {
 			int red = r.floorColor.getRed();
 			int green = r.floorColor.getGreen();
@@ -133,6 +128,23 @@ public class LevelGUI implements Observer {
 	 		}
 
 	 		public void keyTyped(KeyEvent event) {
+	 			switch (event.getKeyChar()) {
+				case 'w':
+					lv.moveNorth();
+					break;
+				case 'd':
+					lv.moveEast();
+					break;
+				case 's':
+					lv.moveSouth();
+					break;
+				case 'a':
+					lv.moveWest();
+					break;
+				default:
+					System.out.println("Use w-a-s-d");
+					break;
+				}		
 	 		}
 	 	}
 	}	
