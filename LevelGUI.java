@@ -59,10 +59,37 @@ public class LevelGUI implements Observer {
 		public void paintRooms(Graphics g, Room r) {
 			if(lv.getFirstLocation() == r) {// If the 
 				g.setColor(r.floorColor);
+				g.fillRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
+				
+				BufferedImage image = null;
+				ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+				InputStream input = classLoader.getResourceAsStream("location_pin.png");
+				try {
+					image = ImageIO.read(input);
+				} catch (IOException e) {
+					System.out.println("FEL");
+					e.printStackTrace();
+				}
+				
+				double scale = (double) r.xSize/(5*370);
+				System.out.println(scale);
+				BufferedImage before = image;
+				int w = before.getWidth();
+				int h = before.getHeight();
+				BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+				AffineTransform at = new AffineTransform();
+				at.scale(scale, scale);
+				AffineTransformOp scaleOp = 
+				   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+				after = scaleOp.filter(before, after);
+
+				g.drawImage(after, r.xCoor+2*r.xSize/5, r.yCoor+r.ySize/3, null);
+				
 			}else {
 				g.setColor(setTransparancy(r,standardTransparency));
+				g.fillRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
 			}
-			g.fillRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
+			
 			
 		}
 		
