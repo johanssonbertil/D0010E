@@ -14,8 +14,10 @@ import javax.swing.JPanel;
 
 public class LevelGUI implements Observer {
 
+	
 	private Level lv;
 	private Display d;
+	private int standardTransparency = 30; 
 	
 	public LevelGUI(Level level, String name) {
 		
@@ -65,23 +67,9 @@ public class LevelGUI implements Observer {
 		//Denna metod ritar upp rummen som blivit placerad i leveln. 
 		public void paintRooms(Graphics g, Room r) {
 			if(lv.getFirstLocation() == r) {// If the 
-				ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-				InputStream input = classLoader.getResourceAsStream("bild.jpg");
-				Image bild = null;
-				try {
-					bild = ImageIO.read(input);
-				} catch (IOException e) {
-					System.out.println("FEELL");
-					e.printStackTrace();
-				}
-				
-				g.drawImage(bild,0,0,null);
+				g.setColor(r.floorColor);
 			}else {
-				int red = r.floorColor.getRed();
-				int green = r.floorColor.getGreen();
-				int blue = r.floorColor.getBlue();
-				Color newColor = new Color(red,green,blue,30);//Makes the color more transparent
-				g.setColor(newColor);
+				g.setColor(setTransparancy(r,standardTransparency));
 			}
 			g.fillRect(r.xCoor, r.yCoor, r.xSize, r.ySize);
 			
@@ -93,14 +81,45 @@ public class LevelGUI implements Observer {
 			int roomSizeHalfX = r.xCoor+r.xSize/2;
 			int roomSizeHalfY = r.yCoor+r.ySize/2;
 			if(r.northRoom != null) {
-				g.setColor(r.northRoom.floorColor);
+				if(lv.getFirstLocation() == r) {
+					g.setColor(r.northRoom.floorColor);
+				}else {
+					g.setColor(setTransparancy(r.northRoom, standardTransparency));
+				}
 				g.fillOval(roomSizeHalfX-rX, r.yCoor-rX , 2*rX, 2*rY);
 		    	}
-			  
-
-			  
-			 
+			if(r.southRoom != null) {
+				if(lv.getFirstLocation() == r) {
+					g.setColor(r.southRoom.floorColor);
+				}else {
+					g.setColor(setTransparancy(r.southRoom, standardTransparency));
+				}
+				g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-rX , 2*rX, 2*rY);
+			}
+			if(r.westRoom != null) {
+				if(lv.getFirstLocation() == r) {
+					g.setColor(r.westRoom.floorColor);
+				}else {
+					g.setColor(setTransparancy(r.westRoom, standardTransparency));
+				}
+				g.fillOval(r.xCoor-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
+			}
+			if(r.eastRoom != null) {
+				if(lv.getFirstLocation() == r) {
+					g.setColor(r.eastRoom.floorColor);
+				}else {
+					g.setColor(setTransparancy(r.eastRoom, standardTransparency));
+				}
+				g.fillOval(r.xCoor+r.xSize-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
+			}
+		}
 		
+		public Color setTransparancy(Room r, int trans) {
+			int red = r.floorColor.getRed();
+			int green = r.floorColor.getGreen();
+			int blue = r.floorColor.getBlue();
+			Color color = new Color(red,green,blue,trans);
+			return color;
 		}
 		
 
@@ -116,6 +135,5 @@ public class LevelGUI implements Observer {
 	 		public void keyTyped(KeyEvent event) {
 	 		}
 	 	}
-
-	}
+	}	
 }
