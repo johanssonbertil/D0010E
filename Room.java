@@ -1,67 +1,80 @@
 package lab2.level;
 
 import java.awt.Color;
-import java.awt.Point;
 
-
-public class Room { 
-
-	private Color floorColor;
-	int xSize, ySize, xCoor, yCoor;
-	public Room southRoom, northRoom, eastRoom, westRoom = null;
-
+//Denna klass ska representera rum.
+public class Room {
 	
+	Color floorColor;
+	int xSize, ySize, xCoor, yCoor;
+	Room southRoom, northRoom, eastRoom, westRoom = null;
+
 	public Room(int dx, int dy, Color color) {
 		floorColor = color;
 		xSize = dx;
 		ySize = dy;
-		System.out.println(floorColor.toString()+"\tx: "+dx+"\ty: "+dy);
-	
+		System.out.println(floorColor.toString() +"X: " + dx+"y: "+ dy);
 	}
-
-	public void setCoordinates(int x, int y){
+	
+	//Denna metod tilldelar rummets x- och y-koordinater.
+	void setCoordinates(int x, int y){
 		xCoor = x;
 		yCoor = y;
 	}
 	
-
-	public int x(){
-		return 	xCoor;
+	//Denna metod returnerar rummets x-koordinat. 
+	int x(){
+		return  xCoor;
 	}
 
-	public int y(){
+	//Denna metod returnerar rummets y-koordinat. 
+	int y(){
 		return yCoor;
 	}
 
-	public int xSize(){
+	//Denna metod returnerar rummets storlek i x-led. 
+    int xSize(){
 		return xSize;
-	}
+    }
 
-	public int ySize(){
-		return ySize;
-	}
+    //Denna metod returnerar rummets storlek i y.led. 
+    int ySize(){
+		 return ySize;
+    }
 
+    /*
+     * Denna metod tar som parameter ett rum och sammanlänkar
+     *  de två rummen med varandra åt norr. 
+     */
 	public void connectNorthTo(Room r) {
 		northRoom = r;
 		System.out.println("connected north doorway");
-		
 	}
 	
+	/*
+     * Denna metod tar som parameter ett rum och sammanlänkar
+     *  de två rummen med varandra åt öster. 
+     */
 	public void connectEastTo(Room r) {
 		eastRoom = r;
-		System.out.println("connected East doorway");
+		System.out.println("connected east doorway");
 	}
 	
+	/*
+     * Denna metod tar som parameter ett rum och sammanlänkar
+     *  de två rummen med varandra åt söder. 
+     */
 	public void connectSouthTo(Room r) {
 		southRoom = r;
-		System.out.println("connected South doorway");
+		System.out.println("connected south doorway");
 	}
 	
+	/*
+     * Denna metod tar som parameter ett rum och sammanlänkar
+     *  de två rummen med varandra åt väster. 
+     */
 	public void connectWestTo(Room r) {
 		westRoom = r;
-		System.out.println("connected West doorway");
-
+		System.out.println("connected west doorway");
 	}
-
-
 }
