@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class Level extends Observable{
 	
-	Vector<Room> rooms = new Vector<Room>();
+    Vector<Room> rooms = new Vector<Room>();
     Boolean firstLocationAdded = false;
     Room currentRoom = null;
 	
@@ -40,6 +40,7 @@ public class Level extends Observable{
         }
         
         if(xOverlap && yOverlap) {
+        	r.roomExistsOnLevel = false;
         	return false;
         }
         rooms.add(r);
@@ -64,7 +65,7 @@ public class Level extends Observable{
 	 * går spelaren till det rummet. 
 	 */
 	void moveNorth() {
-		if(currentRoom.northRoom != null) {
+		if(currentRoom.northRoom != null && currentRoom.northRoom.roomExistsOnLevel == true) {
 			currentRoom = currentRoom.northRoom;
 			updateLevel();
 		}
@@ -76,7 +77,7 @@ public class Level extends Observable{
 	 * går spelaren till det rummet. 
 	 */
 	void moveSouth() {
-		if(currentRoom.southRoom != null) {
+		if(currentRoom.southRoom != null && currentRoom.southRoom.roomExistsOnLevel == true) {
 			currentRoom = currentRoom.southRoom;
 			updateLevel();
 		}
@@ -88,7 +89,7 @@ public class Level extends Observable{
 	 * går spelaren till det rummet. 
 	 */
 	void moveWest() {
-		if(currentRoom.westRoom != null) {
+		if(currentRoom.westRoom != null&& currentRoom.westRoom.roomExistsOnLevel == true) {
 			currentRoom = currentRoom.westRoom;
 			updateLevel();
 		}
@@ -100,7 +101,7 @@ public class Level extends Observable{
 	 * går spelaren till det rummet. 
 	 */
 	void moveEast() {
-		if(currentRoom.eastRoom != null) {
+		if(currentRoom.eastRoom != null&& currentRoom.eastRoom.roomExistsOnLevel == true) {
 			currentRoom = currentRoom.eastRoom;
 			updateLevel();
 		}
