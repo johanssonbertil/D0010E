@@ -8,6 +8,7 @@ public class Room {
 	Color floorColor;
 	int xSize, ySize, xCoor, yCoor;
 	Room southRoom, northRoom, eastRoom, westRoom = null;
+	boolean roomExistsOnLevel = true;
 
 	public Room(int dx, int dy, Color color) {
 		floorColor = color;
