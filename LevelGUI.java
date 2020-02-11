@@ -79,38 +79,38 @@ public class LevelGUI implements Observer {
 			int roomSizeHalfX = r.xCoor+r.xSize/2;//Sparar en ny x-koordinat som är x-koordinaten för rummet adderat med halva längden i x-led för rummet. 
 			int roomSizeHalfY = r.yCoor+r.ySize/2;//Sparar en ny y-koordinat som är y-koordinaten för rummet adderat med halva längden i y-led för rummet. 
 			
-			//Om det rum som tas som parameter är det rum som spelaren befiiner sig i. 
+			//Om det rum som tas som parameter är det rum som spelaren befinner sig i. 
 			if(lv.getCurrentRoom() == r) {
-				if(r.northRoom != null) {
+				if(r.northRoom != null && r.northRoom.roomExistsOnLevel == true) {
 					g.setColor(r.northRoom.floorColor);
 					g.fillOval(roomSizeHalfX-rX, r.yCoor-rX , 2*rX, 2*rY);
 				}
-				if(r.southRoom != null) {
+				if(r.southRoom != null && r.southRoom.roomExistsOnLevel == true) {
 					g.setColor(r.southRoom.floorColor);
 					g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-rX , 2*rX, 2*rY);
 				}
-				if(r.westRoom != null) {
+				if(r.westRoom != null && r.westRoom.roomExistsOnLevel == true) {
 					g.setColor(r.westRoom.floorColor);
 					g.fillOval(r.xCoor-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
-				if(r.eastRoom != null){
+				if(r.eastRoom != null && r.eastRoom.roomExistsOnLevel == true){
 					g.setColor(r.eastRoom.floorColor);
 					g.fillOval(r.xCoor+r.xSize-rX,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
 			}else {//Om metoden tar ett rum som spelaren ej befinner sig i. 
-				if(r.northRoom != null) {
+				if(r.northRoom != null && r.northRoom.roomExistsOnLevel == true) {
 					g.setColor(setTransparancy(r.northRoom, standardTransparency));
 					g.fillOval(roomSizeHalfX-rX, r.yCoor , 2*rX, 2*rY);
 				}
-				if(r.southRoom != null) {
+				if(r.southRoom != null && r.southRoom.roomExistsOnLevel == true) {
 					g.setColor(setTransparancy(r.southRoom, standardTransparency));
 					g.fillOval(roomSizeHalfX-rX, (r.yCoor+r.ySize)-2*rX , 2*rX, 2*rY);
 				}
-				if(r.westRoom != null) {
+				if(r.westRoom != null && r.westRoom.roomExistsOnLevel == true) {
 					g.setColor(setTransparancy(r.westRoom, standardTransparency));
 					g.fillOval(r.xCoor,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
-				if(r.eastRoom != null){
+				if(r.eastRoom != null && r.eastRoom.roomExistsOnLevel == true){
 					g.setColor(setTransparancy(r.eastRoom, standardTransparency));
 					g.fillOval(r.xCoor+r.xSize-2*rX,roomSizeHalfY-rY, 2*rX, 2*rY);
 				}
